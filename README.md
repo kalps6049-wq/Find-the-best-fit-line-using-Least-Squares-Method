@@ -19,58 +19,40 @@ To implement univariate Linear Regression to fit a straight line using least squ
 ## Program:
 ```
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
 
-data = {
-    "Hours_Studied": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    "Marks_Scored":  [35, 40, 50, 55, 60, 65, 70, 80, 85, 95]
-}
-df = pd.DataFrame(data)
+x = np.array(eval(input()))
+y = np.array(eval(input()))
 
-# Display dataset
-print("Dataset:\n", df.head())
-df
+x_mean = np.mean(x)
+y_mean = np.mean(y)
 
-X = df[["Hours_Studied"]]   # Independent variable
-y = df["Marks_Scored"]      # Dependent variable
+num = 0
+denom = 0
 
-# Step 4: Train-test split
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+for i in range(len(x)):
+    num += (x[i] - x_mean) * (y[i] - y_mean)
+    denom += (x[i] - x_mean) ** 2   # corrected indentation
 
-model = LinearRegression()
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
+m = num / denom
+b = y_mean - m * x_mean
 
-# Step 7: Model Evaluation
-print("\nModel Parameters:")
-print("Intercept (b0):", model.intercept_)
-print("Slope (b1):", model.coef_[0])
+print(m, b)
 
-print("\nEvaluation Metrics:")
-print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
-print("R² Score:", r2_score(y_test, y_pred))
-plt.figure(figsize=(8,6))
-plt.scatter(X, y, color='blue', label="Actual Data")
-plt.plot(X, model.predict(X), color='red', linewidth=2, label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.title("Simple Linear Regression: Predicting Marks")
-plt.legend()
-plt.grid(True)
+y_predicted = m * x + b
+print(y_predicted)
+
+plt.scatter(x, y)
+plt.plot(x, y_predicted, color='red')
+plt.xlabel("X values")
+plt.ylabel("Y values")
+plt.title("Linear Regression")
 plt.show()
-hours = 7.5
-predicted_marks = model.predict([[hours]])
-print(f"\nPredicted marks for {hours} hours of study = {predicted_marks[0]:.2f}")
+
 ```
 
 ## Output:
-<img width="1788" height="750" alt="Screenshot 2026-04-27 134744" src="https://github.com/user-attachments/assets/52502817-06b5-4539-8dbe-78dbe4b881a3" />
+<img width="1352" height="707" alt="Screenshot 2026-04-27 141608" src="https://github.com/user-attachments/assets/4d0b6983-a584-4204-85ca-c508d27d5b50" />
 
 
 
